@@ -22,7 +22,7 @@ $(document).ready(function() {
     var trainTime = moment($("#train-time").val().trim()).format("HH:mm");
     var trainFrequency = $("#train-frequency").val().trim();
 
-    // Creates local "temporary" object for holding train data
+    // Creates local object for holding train data
     var newTrain = {
       name: trainName,
       destination: trainDestination,
@@ -30,7 +30,7 @@ $(document).ready(function() {
       frequency: trainFrequency
     };
 
-    // Uploads employee data to the database
+    // Uploads new train to the database
     database.ref().push(newTrain);
 
     // Logs everything to console
@@ -63,15 +63,18 @@ $(document).ready(function() {
     console.log(trainTime);
     console.log(trainFrequency);
 
-    // Difference between the times
-    var differenceTime = moment().diff(moment(trainTime), "minutes");
+    // Calculating the difference between the first train time and the current time
+    var difference = moment().diff(moment.unix(trainTime, "minutes");
 
-    // Time apart (remainder)
-    var remainderTime = differenceTime % trainFrequency;
+    // Calculating the number of times the train has arrived since it started until now
+    var timeLeft = moment().diff(moment.unix(trainTime, 'minutes') % trainFrequency;
 
-    var minutesAway = trainFrequency - remainderTime;
-    var arrival = moment().add(minutesAway, "minutes");
-    var nextArrival = moment(arrival).format("hh:mm a");
+    // Calculating how many minutes are left until the next train
+    var nextArrival = moment(trainFrequency - timeLeft, "mm").format('mm');
+
+    // Add the minutes left to the current time to show the time the next train will arrive
+    var minutesAway = moment().add(mins, "m").format("hh:mm A");
+    
     // Add each train's data into the table
     $("#train-table > tbody").append('<tr><th scope="row">' + trainName + "</th><td>" + trainDestination + "</td><td>" +
     trainFrequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
